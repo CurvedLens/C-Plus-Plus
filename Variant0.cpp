@@ -47,7 +47,6 @@ public:
         cout <<"My name is "<<Name<<endl;
         cout <<"My Surnmane is "<<Surname<<endl;
     }
-
     void HumanNameSet(string Nm){
         Name = Nm;
     }
@@ -61,28 +60,45 @@ class Student: public Human
 private:
     int Course; 
 public:
-    Student(/* args */);
-    ~Student();
+    Student(int year, string Nm, string Sn){
+        Course = year;
+        Human(Nm, Sn);
+    };
+    Student(){
+        Course = 1900;
+        Human();
+    }
+    void Print(){
+        cout<<"Course is "<<Course<<endl;
+        Howdoyoudo();
+    };
 };
 
-Student::Student(/* args */)
+class Publication
 {
-}
+private:
+    Student Au;
+    Achievement Ac; 
+public:
+    Publication(int year, string Nm, string Sn, Achievement Pub):Au(year, Nm, Sn), Ac(Pub){
+        cout << "Publication constructor called"<<endl;
+    };
 
-Student::~Student()
-{
-}
+    void Print(){
+        cout<<"Publication "<<endl;
+        Au.Print();
+        cout <<"Achievment "<<Ac<<endl;
+    };
+
+    int GetAcj(){
+    return Ac;
+    };
+};
+
 
 
 
 int main(){
-    Human t1;
-    Human t2("Mark", "Hopp");
-    Human t3(t2);
-    //t1 and t2 changed 
-    t1.HumanSurnameSet("ChSmiths");
-    t3.HumanNameSet("Antonio");
-    t1.Howdoyoudo();
-    t2.Howdoyoudo();
-    t3.Howdoyoudo();
+    Publication Mc(25, "Albert", "Einstein", Thesis);
+    Mc.Print();
 }
