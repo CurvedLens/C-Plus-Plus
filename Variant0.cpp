@@ -19,16 +19,16 @@ private:
 public:
     Date(int Y, int M, int D):Year(Y), Month(M), Day(D)
     {
-        cout << "\t Date Constructor Worked";
+       // cout << "\t Date Constructor Worked";
     };
     Date(): Year(2000), Month(6), Day(15){
-        cout << "\t Default Constructor Worked";
+        //cout << "\t Default Constructor Worked";
     };
     void Print(){
         cout<<"Year is "<<Year<<" Mounth is "<<Month<<" Day is "<<Day;
     }
     bool operator < (const Date obj1){
-        cout << "Operator Called"<<endl;
+       // cout << "Operator Called"<<endl;
         if(Year>obj1.Year){
             return 0;
         }
@@ -65,24 +65,24 @@ protected:
     string Surname;
 public:
     Human(){
-        cout << "\tConstructor without parameters\n";
+       // cout << "\tConstructor without parameters\n";
         Birthsday = Date(2001, 1,1);
         Name = "John";
         Surname = "Smith";
     }
     Human(string UserName, string UserSurname, int Y = 2001, int M = 1, int D = 1){
-        cout << "\tJuman: Constructor with Parameters Worked\n";
+        //cout << "\tJuman: Constructor with Parameters Worked\n";
         Birthsday = Date(Y,M,D);
         Name = UserName;
         Surname = UserSurname;
     }
     Human(const Human &Example){
-        cout << "\tCopy constructor\n";
+        //cout << "\tCopy constructor\n";
         Name = Example.Name;
         Surname = Example.Surname;
     }
     ~Human(){
-        cout <<"\tDestructor Worked\n";
+        //cout <<"\tDestructor Worked\n";
     }
 
     string HumanNameGet(){return Name;}
@@ -109,17 +109,17 @@ public:
     int GetGourse(){return Course;};
 
     Student(int year, string Nm, string Sn, int Y, int M, int D):Human(Nm, Sn, Y, M, D), Course(year){
-        cout <<"\tStudent: Constructor with Parameters Worked"<<endl;
+        //cout <<"\tStudent: Constructor with Parameters Worked"<<endl;
     };
     Student(){
         Course = 1;
     }
     void Print(){
-        cout<<"Course is "<<Course<<endl;
+        //cout<<"Course is "<<Course<<endl;
         Howdoyoudo();
     };
     ~Student(){
-        cout <<"Destructor for Student Worked"<<endl;
+        //cout <<"Destructor for Student Worked"<<endl;
     }
     Student(const Student &obj1){
         Course = obj1.Course;
@@ -137,7 +137,7 @@ private:
     Achievement Ac; 
 public:
     Publication(int year, string Nm, string Sn, Achievement Pub, int Y, int M, int D,int Y1, int M1, int D1):Au(year, Nm, Sn, Y1, M1, D1), Ac(Pub), Cr(Y, M, D){
-        cout << "Publication constructor called"<<endl;
+       // cout << "Publication constructor called"<<endl;
     };
     Publication(const Publication & obj1){
         Cr = obj1.Cr;
@@ -145,7 +145,7 @@ public:
         Ac = obj1.Ac; 
     }
     ~Publication(){
-        cout<<"Publication destructor called"<<endl;
+       //cout<<"Publication destructor called"<<endl;
     }
 
     void Print(){
@@ -189,15 +189,17 @@ public:
     }
 
     void addPublication(Publication t){
-        deq.push_back(t);
+        deq.push_front(t);
     }
 
-    void DeleteByDate(Date t){
-         for (auto it = deq.begin(); it != deq.end(); ++it)
-              if((*it).GetCr()<t){
-                  cout<<"\tTried to Erase"<<endl;;
-                  deq.erase(it);
-              }
+  void DeleteByDate(Date t){
+        deque<Publication> deqN= {};
+	for (Publication i : deq) {
+		if (!(i.GetCr() <t)) {
+			deqN.push_back(i);
+		}
+	}
+	deq = deqN;
     }
 
     void Print(){
@@ -205,6 +207,7 @@ public:
         for (auto &&i : deq)
         {
             i.Print();
+            cout<<endl;
         }
     }
 
@@ -237,7 +240,7 @@ public:
     Research operator + (Research const &obj) {
         for (auto &&i : obj.deq)
         {
-            deq.push_back(i);
+            deq.push_front(i);
         }
         return *this;
     }
@@ -274,16 +277,16 @@ int main(){
     cout<<"Creation of Human"<<endl;
     Human Me("Illlia", "Kvashuk", 2001, 11, 4);
     Me.Howdoyoudo();
-    Me.HumanSurnameSet("Illia");
+    Me.HumanNameSet("Illia");
     Me.Howdoyoudo();
     cout<<"My Name is "<<Me.HumanNameGet()<<endl;
 
     cout<<"Creation of Student"<<endl;
-    Student AlsoMe(4,"Illlia", "Kvashuk", 2001, 11, 4);
-    Student SomebodyElse();
+    Student AlsoMe(4,"Illla", "Kvashuk", 2001, 11, 4);
+    AlsoMe.Print();
 
 
-
+    cout<<"\tCreaton\t"<<endl;
     Publication Photo(2, "Albert", "Einstein",  Report_world_conference, 1908, 1,1, 1879, 03, 14);
     Publication Gravity(3, "Albert", "Einstein",  Report_world_conference, 1909, 1,1, 1879, 03, 14);
     Publication Gravity2(4, "Albert", "Einstein",  Report_world_magazine, 1911, 1,1, 1879, 03, 14);
@@ -291,12 +294,16 @@ int main(){
     EinsteinLife.addPublication(Gravity);
     EinsteinLife.addPublication(Gravity2);
     Date NewDawn(1908, 2,1);
+
+    EinsteinLife.Print();
+    
+    cout<<EinsteinLife;
+    cout<<"\n\tMerging Publication Lists in One\t"<<endl;
+    Research doubleEin = EinsteinLife + EinsteinLife;
+    cout<<EinsteinLife;
+
+    cout<<"\n\tReduction\t"<<endl;
     cout<<EinsteinLife;
     EinsteinLife.DeleteByDate(NewDawn);
-    cout<<EinsteinLife;
-    EinsteinLife.ShortPrint();
-    EinsteinLife.Print();
-    cout<<EinsteinLife<<endl;
-    Research doubleEin = EinsteinLife + EinsteinLife;
-    cout<<doubleEin<<endl;
+    cout << EinsteinLife;
 }
